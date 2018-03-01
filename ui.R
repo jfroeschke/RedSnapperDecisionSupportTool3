@@ -50,25 +50,48 @@ ui <- function(request){
                         
                               tabPanel("Alternative 2", p(Alt2Text),
                                        hr(),
-                                       radioButtons(inputId = "Alt2Radio", 
-                                                    label = "Alternative 2: Select years", 
-                                                    choices = c("Option 2a: 1986 - 2009",
-                                                                "Option 2b: 1986 - 2015",
-                                                                "Option 2c: 1996 - 2009", 
-                                                                "Option 2d: 1996 - 2015",
-                                                                "Option 2e: 2006 - 2009",
-                                                                "Option 2f: 2006 - 2015",
-                                                                "Option 2g: 50% of average historical landings for the years 1986-2009 and 50% of average historical landings for the years 2006-2009",
-                                                                "Option 2h: 50% of average historical landings for the years 1986-2015 and 50% of average historical landings for the years 2006-2015"), 
-                                                    selected = "Option 2a: 1986 - 2009", 
-                                                    width='600px',
-                                                    inline=TRUE),
+                                       div(
+                                       pickerInput(
+                                         inputId = "Alt2Radio",
+                                       #   selected="Total US recreational landings",
+                                          label = "Alternative 2: Select years",
+                                       #  
+                                       choices = c("Option 2a: 1986 - 2009",
+                                       "Option 2b: 1986 - 2015",
+                                       "Option 2c: 1996 - 2009", 
+                                       "Option 2d: 1996 - 2015",
+                                       "Option 2e: 2006 - 2009",
+                                       "Option 2f: 2006 - 2015",
+                                       "Option 2g: 50% of average historical landings for the years 1986-2009 and 50% of average historical landings for the years 2006-2009",
+                                       "Option 2h: 50% of average historical landings for the years 1986-2015 and 50% of average historical landings for the years 2006-2015"),
+                                         options = list(
+                                           `actions-box` = TRUE,
+                                           size = 10,
+                                           `selected-text-format` = "count > 3"
+                                         ),
+                                         multiple = FALSE
+                                       ),align="center"),
+                                       
+                                       # radioButtons(inputId = "Alt2Radio", 
+                                       #              label = "Alternative 2: Select years", 
+                                       #              choices = c("Option 2a: 1986 - 2009",
+                                       #                          "Option 2b: 1986 - 2015",
+                                       #                          "Option 2c: 1996 - 2009", 
+                                       #                          "Option 2d: 1996 - 2015",
+                                       #                          "Option 2e: 2006 - 2009",
+                                       #                          "Option 2f: 2006 - 2015",
+                                       #                          "Option 2g: 50% of average historical landings for the years 1986-2009 and 50% of average historical landings for the years 2006-2009",
+                                       #                          "Option 2h: 50% of average historical landings for the years 1986-2015 and 50% of average historical landings for the years 2006-2015"), 
+                                       #              selected = "Option 2a: 1986 - 2009", 
+                                       #              width='600px',
+                                       #              inline=TRUE),
                                        #HTML("<h4><b>Exclude selected years</b></h4>"),
+                                       div( ## center align button
                                        checkboxGroupInput("ALT3x", "Alternative 3: Exclude selected years", 
                                                           c("Exlude 2006" = 2006,
                                                             "Exlude 2014" = 2014,
                                                             "Exlude 2015" = 2015),
-                                                          selected=2006, inline=TRUE),
+                                                          selected=2006, inline=TRUE),align="center"),
                                           
                                        hr(),
                                        box(tableOutput("summaryTable"), width=6),
@@ -177,10 +200,10 @@ column(6, radioGroupButtons(inputId = "Id073",
                                                           style = "color: steelblue")))), 
 column(6, pickerInput(inputId = "TimeSeriesSelect", 
                       label = "*Select time series for trips/landings",
-                      choices = list("Select years" = c("1986 - 2015","1996 - 2015", "2006 - 2015",#"50% 1986 - 2015: 50% 2006 -2015",
-                                                        "1986 - 2009", "1996 - 2009", "2006 - 2009" 
-                                                        #"50% 1986 - 2015: 50% 2006 -2009"
-                                                        )))),
+                      choices = list("Select years" = c("1986 - 2009","1986 - 2015", "2006 - 2009",#"50% 1986 - 2015: 50% 2006 -2015",
+                                                        "50% of the average 1986-2009 and 50% of the average 2006-2009", 
+                                                        "50% of the average 1986-2015 and 50% of the average 2006-2015" 
+                                                                                                          )))),
 column(12, div(HTML("<h4 id='A6title' style='text-align:center;' ><b>**Select an option</b>"))
       )
   ),

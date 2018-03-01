@@ -373,7 +373,14 @@ server <- function(input, output, session) {
                                             caption.placement = getOption("xtable.caption.placement", "top"),
                                             caption.width = getOption("xtable.caption.width", NULL))
  
-###################################### Alt 3 ###########################
+###################################### ###########################
+##################################################################### 
+#
+#
+#                         ALTERNATIVE 3 
+#
+#
+##################################################################### 
   ################# Landings chart ############################
   selectYearsAlt3 <- reactive({
     if(input$Alt3Radio=="Option 3a: 1986 - 2009"){
@@ -1214,44 +1221,46 @@ caption.width = getOption("xtable.caption.width", NULL))
       output$map <- renderLeaflet({
         map
       })
-      
-######################## Alternative 6
+##################################################################### 
+#
+#
+#                         ALTERNATIVE 6 (NEW ALTERNATIVE 5)
+#
+#
+#####################################################################       
       dfTool <- reactive({
-        # df <- data.frame(Source=c("Biomass", "Landings","Trips"),
-        #                  FL=c(.2994,.35,.40),
-        #                  AL=c(.0630,.4,.3),
-        #                  MS=c(0.0134, .01,.02),
-        #                  LA=c(.2028,.2,.2),
-        #                  TX=c(.4213,.04,.08))
-        
         if(input$Id073=="Total"){
           tmp <- filter(Total2, YEAR>= 1986 & YEAR <=2015 & YEAR !=2010)
-          ###
-          # colnames(TotalEffort) <- c("YEAR", "FLEffort", "ALEffort", "MSEffort", "LAEffort", "TXeffort")
-          # tmp2 <- filter(TotalEffort, YEAR>= 1986 & YEAR <=2015 & YEAR !=2010)
-          # tmp <- cbind(tmp, tmp2[,2:6])
-          ##
-          
-          
+   
+######################## OPTION A #######################################
+          if(input$TimeSeriesSelect=="1986 - 2009"){
+            tmp <- filter(tmp, YEAR>= 1986 & YEAR <=2009 & YEAR !=2010)
+          } else
+######################## OPTION B #######################################
           if(input$TimeSeriesSelect=="1986 - 2015"){
             tmp <- filter(tmp, YEAR>= 1986 & YEAR <=2015 & YEAR !=2010)
               } else
-                if(input$TimeSeriesSelect=="1996 - 2015"){
-                  tmp <- filter(tmp, YEAR>= 1996 & YEAR <=2015 & YEAR !=2010)
+######################## OPTION c #######################################
+                if(input$TimeSeriesSelect=="2006 - 2009"){
+                  tmp <- filter(tmp, YEAR>= 2006 & YEAR <=2009 & YEAR !=2010)
                 } else
+######################## OPTION D #######################################
                   if(input$TimeSeriesSelect=="2006 - 2015"){
                     tmp <- filter(tmp, YEAR>= 2006 & YEAR <=2015 & YEAR !=2010)
                   } else
-                    if(input$TimeSeriesSelect=="1986 - 2009"){
+######################## OPTION E #######################################
+                    if(input$TimeSeriesSelect=="50% of the average 1986-2009 and 50% of the average 2006-2009"){
                       tmp <- filter(tmp, YEAR>= 1986 & YEAR <=2009 & YEAR !=2010)
+######################## OPTION F #######################################
                     } else
-                      if(input$TimeSeriesSelect=="1996 - 2009"){
+                      if(input$TimeSeriesSelect=="50% of the average 1986-2015 and 50% of the average 2006-2015"){
                         tmp <- filter(tmp, YEAR>= 1996 & YEAR <=2009 & YEAR !=2010)
-                      } else
-                        if(input$TimeSeriesSelect=="2006 - 2009"){
-                          tmp <- filter(tmp, YEAR>= 2006 & YEAR <=2009 & YEAR !=2010)
-                        } 
+                      } #else
+                      #   if(input$TimeSeriesSelect=="2006 - 2009"){
+                      #     tmp <- filter(tmp, YEAR>= 2006 & YEAR <=2009 & YEAR !=2010)
+                      #   } 
         
+   #### USE THIS FOR UNWEIGHTED OPTIONS
           x <- tmp %>% melt(id="YEAR")
           colnames(x) <- c("Year", "State", "Landings")
           x2 <- group_by(x, State) %>% 
@@ -1260,55 +1269,9 @@ caption.width = getOption("xtable.caption.width", NULL))
           x2$State <- c("FL", "AL", "MS", "LA", "TX")
           x2
           landOut <- x2$Landings
-          
-          ####
-          # x2a <- x2[1:5,]
-          # x2b <- x2[6:10,]
-          # x2a$Allocation <- (x2a$Landings/sum(x2a$Landings))*100
-          # x2a$State <- c("FL", "AL", "MS", "LA", "TX")
-          # x2b$Allocation <- (x2b$Landings/sum(x2b$Landings))*100
-          # x2b$State <- c("FL", "AL", "MS", "LA", "TX")
-          
-          landOut <- x2$Landings
-          # tripsOut <-  x2b$Allocation
-          ####
-          
-          
-          df <- data.frame(Source=c("Biomass", "Landings","Trips"),
-                           FL=c(.2994,landOut[1],1),
-                           AL=c(.0630,landOut[2],1),
-                           MS=c(0.0134,landOut[3],1),
-                           LA=c(.2028,landOut[4],1),
-                           TX=c(.4213,landOut[5],1))
-          # df <- data.frame(Source=c("Biomass", "Landings","Trips"),
-          #                  FL=c(.2994,landOut[1],tripsOut[1]),
-          #                  AL=c(.0630,landOut[2],tripsOut[2]),
-          #                  MS=c(0.0134,landOut[3],tripsOut[3]),
-          #                  LA=c(.2028,landOut[4],tripsOut[4]),
-          #                  TX=c(.4213,landOut[5],tripsOut[5]))
-          
-        } else 
-          if(input$Id073=="Private"){
-            tmp <- filter(Private, YEAR>= 1986 & YEAR <=2015 & YEAR !=2010)
-            if(input$TimeSeriesSelect=="1986 - 2015"){
-              tmp <- filter(tmp, YEAR>= 1986 & YEAR <=2015 & YEAR !=2010)
-            } else
-              if(input$TimeSeriesSelect=="1996 - 2015"){
-                tmp <- filter(tmp, YEAR>= 1996 & YEAR <=2015 & YEAR !=2010)
-              } else
-                if(input$TimeSeriesSelect=="2006 - 2015"){
-                  tmp <- filter(tmp, YEAR>= 2006 & YEAR <=2015 & YEAR !=2010)
-                } else
-                  if(input$TimeSeriesSelect=="1986 - 2009"){
-                    tmp <- filter(tmp, YEAR>= 1986 & YEAR <=2009 & YEAR !=2010)
-                  } else
-                    if(input$TimeSeriesSelect=="1996 - 2009"){
-                      tmp <- filter(tmp, YEAR>= 1996 & YEAR <=2009 & YEAR !=2010)
-                    } else
-                      if(input$TimeSeriesSelect=="2006 - 2009"){
-                        tmp <- filter(tmp, YEAR>= 2006 & YEAR <=2009 & YEAR !=2010)
-                      } 
-            x <- tmp %>% select(-star) %>%  melt(id="YEAR")
+
+          if(input$TimeSeriesSelect=="50% of the average 1986-2009 and 50% of the average 2006-2009"){
+            x <- tmp %>% melt(id="YEAR")
             colnames(x) <- c("Year", "State", "Landings")
             x2 <- group_by(x, State) %>% 
               summarise(Landings=mean(Landings) )
@@ -1317,35 +1280,21 @@ caption.width = getOption("xtable.caption.width", NULL))
             x2
             landOut <- x2$Landings
             
+            tmp <- filter(tmp, YEAR>= 2006 & YEAR <=2009 & YEAR !=2010)
+            x <- tmp %>% melt(id="YEAR")
+            colnames(x) <- c("Year", "State", "Landings")
+            x2 <- group_by(x, State) %>% 
+              summarise(Landings=mean(Landings) )
+            x2$Allocation <- (x2$Landings/sum(x2$Landings))*100
+            x2$State <- c("FL", "AL", "MS", "LA", "TX")
+            x2
+            landOut2 <- x2$Landings
+            landOut <- (landOut2*.5) + (landOut2*.5)
             
-            df <- data.frame(Source=c("Biomass", "Landings","Trips"),
-                             FL=c(.2994,landOut[1],1),
-                             AL=c(.0630,landOut[2],1),
-                             MS=c(0.0134,landOut[3],1),
-                             LA=c(.2028,landOut[4],1),
-                             TX=c(.4213,landOut[5],1))
           } else
-            if(input$Id073=="For-hire"){
-              tmp <- filter(ForHire, YEAR>= 1986 & YEAR <=2015 & YEAR !=2010)
-              if(input$TimeSeriesSelect=="1986 - 2015"){
-                tmp <- filter(tmp, YEAR>= 1986 & YEAR <=2015 & YEAR !=2010)
-              } else
-                if(input$TimeSeriesSelect=="1996 - 2015"){
-                  tmp <- filter(tmp, YEAR>= 1996 & YEAR <=2015 & YEAR !=2010)
-                } else
-                  if(input$TimeSeriesSelect=="2006 - 2015"){
-                    tmp <- filter(tmp, YEAR>= 2006 & YEAR <=2015 & YEAR !=2010)
-                  } else
-                    if(input$TimeSeriesSelect=="1986 - 2009"){
-                      tmp <- filter(tmp, YEAR>= 1986 & YEAR <=2009 & YEAR !=2010)
-                    } else
-                      if(input$TimeSeriesSelect=="1996 - 2009"){
-                        tmp <- filter(tmp, YEAR>= 1996 & YEAR <=2009 & YEAR !=2010)
-                      } else
-                        if(input$TimeSeriesSelect=="2006 - 2009"){
-                          tmp <- filter(tmp, YEAR>= 2006 & YEAR <=2009 & YEAR !=2010)
-                        } 
-              x <- tmp %>% select(-star) %>%  melt(id="YEAR")
+            
+            if(input$TimeSeriesSelect=="50% of the average 1986-2015 and 50% of the average 2006-2015"){
+              x <- tmp %>% melt(id="YEAR")
               colnames(x) <- c("Year", "State", "Landings")
               x2 <- group_by(x, State) %>% 
                 summarise(Landings=mean(Landings) )
@@ -1354,14 +1303,160 @@ caption.width = getOption("xtable.caption.width", NULL))
               x2
               landOut <- x2$Landings
               
+              tmp <- filter(tmp, YEAR>= 2006 & YEAR <=2015 & YEAR !=2010)
+              x <- tmp %>% melt(id="YEAR")
+              colnames(x) <- c("Year", "State", "Landings")
+              x2 <- group_by(x, State) %>% 
+                summarise(Landings=mean(Landings) )
+              x2$Allocation <- (x2$Landings/sum(x2$Landings))*100
+              x2$State <- c("FL", "AL", "MS", "LA", "TX")
+              x2
+              landOut2 <- x2$Landings
+              landOut <- (landOut2*.5) + (landOut2*.5)
               
-              df <- data.frame(Source=c("Biomass", "Landings","Trips"),
-                               FL=c(.2994,landOut[1],1),
-                               AL=c(.0630,landOut[2],1),
-                               MS=c(0.0134,landOut[3],1),
-                               LA=c(.2028,landOut[4],1),
-                               TX=c(.4213,landOut[5],1))
             }
+
+          df <- data.frame(Source=c("Biomass", "Landings","Trips"),
+                           FL=c(.2994,landOut[1],1),
+                           AL=c(.0630,landOut[2],1),
+                           MS=c(0.0134,landOut[3],1),
+                           LA=c(.2028,landOut[4],1),
+                           TX=c(.4213,landOut[5],1))
+          
+        } else 
+          
+      if(input$Id073=="Private"){
+            tmp <- filter(Private, YEAR>= 1986 & YEAR <=2015 & YEAR !=2010) %>% 
+              select(-star)
+           
+    ######################## OPTION A #######################################
+            if(input$TimeSeriesSelect=="1986 - 2009"){
+              tmp <- filter(tmp, YEAR>= 1986 & YEAR <=2009 & YEAR !=2010)
+            } else
+              ######################## OPTION B #######################################
+            if(input$TimeSeriesSelect=="1986 - 2015"){
+              tmp <- filter(tmp, YEAR>= 1986 & YEAR <=2015 & YEAR !=2010)
+            } else
+              ######################## OPTION c #######################################
+            if(input$TimeSeriesSelect=="2006 - 2009"){
+              tmp <- filter(tmp, YEAR>= 2006 & YEAR <=2009 & YEAR !=2010)
+            } else
+              ######################## OPTION D #######################################
+            if(input$TimeSeriesSelect=="2006 - 2015"){
+              tmp <- filter(tmp, YEAR>= 2006 & YEAR <=2015 & YEAR !=2010)  
+              } #else
+              ######################## OPTION E #######################################
+            if(input$TimeSeriesSelect=="50% of the average 1986-2009 and 50% of the average 2006-2009"){
+              tmp <- filter(tmp, YEAR>= 1986 & YEAR <=2009 & YEAR !=2010)
+              ######################## OPTION F #######################################
+            } else
+              if(input$TimeSeriesSelect=="50% of the average 1986-2015 and 50% of the average 2006-2015"){
+                tmp <- filter(tmp, YEAR>= 1996 & YEAR <=2009 & YEAR !=2010)
+              } #else
+              if(input$TimeSeriesSelect=="2006 - 2009"){
+                tmp <- filter(tmp, YEAR>= 2006 & YEAR <=2009 & YEAR !=2010)
+              }
+
+            #### USE THIS FOR UNWEIGHTED OPTIONS
+            x <- tmp %>% melt(id="YEAR")
+            colnames(x) <- c("Year", "State", "Landings")
+            x2 <- group_by(x, State) %>% 
+              summarise(Landings=mean(Landings) )
+            x2$Allocation <- (x2$Landings/sum(x2$Landings))*100
+            x2$State <- c("FL", "AL", "MS", "LA", "TX")
+            x2
+            landOut <- x2$Landings
+            # 
+            if(input$TimeSeriesSelect=="50% of the average 1986-2009 and 50% of the average 2006-2009"){
+              x <- tmp %>% melt(id="YEAR")
+              colnames(x) <- c("Year", "State", "Landings")
+              x2 <- group_by(x, State) %>%
+                summarise(Landings=mean(Landings) )
+              x2$Allocation <- (x2$Landings/sum(x2$Landings))*100
+              x2$State <- c("FL", "AL", "MS", "LA", "TX")
+              x2
+              landOut <- x2$Landings
+
+              tmp <- filter(tmp, YEAR>= 2006 & YEAR <=2009 & YEAR !=2010)
+              x <- tmp %>% melt(id="YEAR")
+              colnames(x) <- c("Year", "State", "Landings")
+              x2 <- group_by(x, State) %>%
+                summarise(Landings=mean(Landings) )
+              x2$Allocation <- (x2$Landings/sum(x2$Landings))*100
+              x2$State <- c("FL", "AL", "MS", "LA", "TX")
+              x2
+              landOut2 <- x2$Landings
+              landOut <- (landOut2*.5) + (landOut2*.5)
+
+            } else
+
+              if(input$TimeSeriesSelect=="50% of the average 1986-2015 and 50% of the average 2006-2015"){
+                x <- tmp %>% melt(id="YEAR")
+                colnames(x) <- c("Year", "State", "Landings")
+                x2 <- group_by(x, State) %>%
+                  summarise(Landings=mean(Landings) )
+                x2$Allocation <- (x2$Landings/sum(x2$Landings))*100
+                x2$State <- c("FL", "AL", "MS", "LA", "TX")
+                x2
+                landOut <- x2$Landings
+
+                tmp <- filter(tmp, YEAR>= 2006 & YEAR <=2015 & YEAR !=2010)
+                x <- tmp %>% melt(id="YEAR")
+                colnames(x) <- c("Year", "State", "Landings")
+                x2 <- group_by(x, State) %>%
+                  summarise(Landings=mean(Landings) )
+                x2$Allocation <- (x2$Landings/sum(x2$Landings))*100
+                x2$State <- c("FL", "AL", "MS", "LA", "TX")
+                x2
+                landOut2 <- x2$Landings
+                landOut <- (landOut2*.5) + (landOut2*.5)
+
+              }
+            
+            df <- data.frame(Source=c("Biomass", "Landings","Trips"),
+                             FL=c(.2994,landOut[1],1),
+                             AL=c(.0630,landOut[2],1),
+                             MS=c(0.0134,landOut[3],1),
+                             LA=c(.2028,landOut[4],1),
+                             TX=c(.4213,landOut[5],1))
+      } else
+        if(input$Id073=="For-hire"){
+          tmp <- filter(ForHire, YEAR>= 1986 & YEAR <=2015 & YEAR !=2010)
+          if(input$TimeSeriesSelect=="1986 - 2015"){
+            tmp <- filter(tmp, YEAR>= 1986 & YEAR <=2015 & YEAR !=2010)
+          } else
+            if(input$TimeSeriesSelect=="1996 - 2015"){
+              tmp <- filter(tmp, YEAR>= 1996 & YEAR <=2015 & YEAR !=2010)
+            } else
+              if(input$TimeSeriesSelect=="2006 - 2015"){
+                tmp <- filter(tmp, YEAR>= 2006 & YEAR <=2015 & YEAR !=2010)
+              } else
+                if(input$TimeSeriesSelect=="1986 - 2009"){
+                  tmp <- filter(tmp, YEAR>= 1986 & YEAR <=2009 & YEAR !=2010)
+                } else
+                  if(input$TimeSeriesSelect=="1996 - 2009"){
+                    tmp <- filter(tmp, YEAR>= 1996 & YEAR <=2009 & YEAR !=2010)
+                  } else
+                    if(input$TimeSeriesSelect=="2006 - 2009"){
+                      tmp <- filter(tmp, YEAR>= 2006 & YEAR <=2009 & YEAR !=2010)
+                    } 
+          x <- tmp %>% select(-star) %>%  melt(id="YEAR")
+          colnames(x) <- c("Year", "State", "Landings")
+          x2 <- group_by(x, State) %>% 
+            summarise(Landings=mean(Landings) )
+          x2$Allocation <- (x2$Landings/sum(x2$Landings))*100
+          x2$State <- c("FL", "AL", "MS", "LA", "TX")
+          x2
+          landOut <- x2$Landings
+          
+          
+          df <- data.frame(Source=c("Biomass", "Landings","Trips"),
+                           FL=c(.2994,landOut[1],1),
+                           AL=c(.0630,landOut[2],1),
+                           MS=c(0.0134,landOut[3],1),
+                           LA=c(.2028,landOut[4],1),
+                           TX=c(.4213,landOut[5],1))
+        }
         
       }) #end Dftool
       
