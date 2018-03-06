@@ -174,7 +174,10 @@ server <- function(input, output, session) {
     
    ### This Block stays at the end of the reactive 
     x2$State <- c("FL", "AL", "MS", "LA", "TX")
-    x2$Allocation <- sprintf("%1.1f%%", x2$Allocation)
+    if(input$Alt2SectorAllocation=="Yes"){
+    x2$Allocation <- x2$Allocation *.577
+      }
+    x2$Allocation <- sprintf("%1.2f%%", x2$Allocation) #updated to 2 digits per A. Lasseter
     x2
     }) ##End of reactive
 
@@ -344,7 +347,7 @@ server <- function(input, output, session) {
     ####Separate section to calculate weighted mean
     if(input$Alt2Radio=="Option 2h: 50% of average historical landings for the years 1986-2015 and 50% of average historical landings for the years 2006-2015"){
       allRec <- ForHire
-      allRec <- filter(allRec, YEAR >= 1986 & YEAR <=2009 & YEAR!=2010)#}
+      allRec <- filter(allRec, YEAR >= 1986 & YEAR <=2015 & YEAR!=2010)#}
       x <- select(allRec, -star) %>% 
         melt(id="YEAR")
       colnames(x) <- c("Year", "State", "Landings")
@@ -362,8 +365,12 @@ server <- function(input, output, session) {
     #### This assigns better labels to the rows for state names
     ### and rounds off the values and changes to percent
     x2$State <- c("FL", "AL", "MS", "LA", "TX")
-    x2$Allocation <- sprintf("%1.1f%%", x2$Allocation)
+    if(input$Alt2SectorAllocation=="Yes"){
+    x2$Allocation <- x2$Allocation *.423  ## to compare to table 2.2.2
+    }
+    x2$Allocation <- sprintf("%1.2f%%", x2$Allocation)
     x2 <- x2[,c(1,3)]
+    x2  
     x2})
   
   
@@ -473,7 +480,7 @@ server <- function(input, output, session) {
       xout <- (x2$Allocation*.5 + x4$Allocation*.5)
       x2$Allocation <- xout}
     x2$State <- c("FL", "AL", "MS", "LA", "TX")
-    x2$Allocation <- sprintf("%1.1f%%", x2$Allocation)
+    x2$Allocation <- sprintf("%1.2f%%", x2$Allocation)
     x2 <- x2[,c(1,3)]
     x2})
   
@@ -594,7 +601,7 @@ server <- function(input, output, session) {
       xout <- (x2$Allocation*.5 + x4$Allocation*.5)
       x2$Allocation <- xout}
     x2$State <- c("FL", "AL", "MS", "LA", "TX")
-    x2$Allocation <- sprintf("%1.1f%%", x2$Allocation)
+    x2$Allocation <- sprintf("%1.2f%%", x2$Allocation)
     x2 <- x2[,c(1,3)]
     x2})
   
@@ -682,7 +689,7 @@ server <- function(input, output, session) {
             summarise(Landings=mean(Landings) )
           x2$Allocation <- (x2$Landings/sum(x2$Landings))*100
           x2$State <- c("FL", "AL", "MS", "LA", "TX")
-          x2$Allocation <- sprintf("%1.1f%%", x2$Allocation)
+          x2$Allocation <- sprintf("%1.2f%%", x2$Allocation)
           x2} else 
               
               if(input$selectOption == "OptionB"){
@@ -693,7 +700,7 @@ server <- function(input, output, session) {
                   summarise(Landings=mean(Landings) )
                 x2$Allocation <- (x2$Landings/sum(x2$Landings))*100
                 x2$State <- c("FL", "AL", "MS", "LA", "TX")
-                x2$Allocation <- sprintf("%1.1f%%", x2$Allocation)
+                x2$Allocation <- sprintf("%1.2f%%", x2$Allocation)
                 x2} else 
                   
                   if(input$selectOption == "OptionC"){
@@ -704,7 +711,7 @@ server <- function(input, output, session) {
                       summarise(Landings=mean(Landings) )
                     x2$Allocation <- (x2$Landings/sum(x2$Landings))*100
                     x2$State <- c("FL", "AL", "MS", "LA", "TX")
-                    x2$Allocation <- sprintf("%1.1f%%", x2$Allocation)
+                    x2$Allocation <- sprintf("%1.2f%%", x2$Allocation)
                     x2}  else
                       if(input$selectOption == "OptionD"){
                         df <- selectYearsAlt4()
@@ -721,7 +728,7 @@ server <- function(input, output, session) {
                         xout <- (x2$Allocation*.5 + x4$Allocation*.5)
                         x2$Allocation <- xout
                                # x2$State <- c("Florida", "Alabama", "Mississippi", "Louisiana", "Texas")
-                        x2$Allocation <- sprintf("%1.1f%%", x2$Allocation)
+                        x2$Allocation <- sprintf("%1.2f%%", x2$Allocation)
                           
                         x2}
      
@@ -800,7 +807,7 @@ server <- function(input, output, session) {
             summarise(Landings=mean(Landings) )
           x2$Allocation <- (x2$Landings/sum(x2$Landings))*100
           x2$State <- c("FL", "AL", "MS", "LA", "TX")
-          x2$Allocation <- sprintf("%1.1f%%", x2$Allocation)
+          x2$Allocation <- sprintf("%1.2f%%", x2$Allocation)
           x2} else 
             
             if(input$selectOption == "OptionB"){
@@ -811,7 +818,7 @@ server <- function(input, output, session) {
                 summarise(Landings=mean(Landings) )
               x2$Allocation <- (x2$Landings/sum(x2$Landings))*100
               x2$State <- c("FL", "AL", "MS", "LA", "TX")
-              x2$Allocation <- sprintf("%1.1f%%", x2$Allocation)
+              x2$Allocation <- sprintf("%1.2f%%", x2$Allocation)
               x2} else 
                 
                 if(input$selectOption == "OptionC"){
@@ -822,7 +829,7 @@ server <- function(input, output, session) {
                     summarise(Landings=mean(Landings) )
                   x2$Allocation <- (x2$Landings/sum(x2$Landings))*100
                   x2$State <- c("FL", "AL", "MS", "LA", "TX")
-                  x2$Allocation <- sprintf("%1.1f%%", x2$Allocation)
+                  x2$Allocation <- sprintf("%1.2f%%", x2$Allocation)
                   x2}  else
                     if(input$selectOption == "OptionD"){
                       df <- selectYearsAlt4()
@@ -839,7 +846,7 @@ server <- function(input, output, session) {
                       xout <- (x2$Allocation*.5 + x4$Allocation*.5)
                       x2$Allocation <- xout
                       x2$State <- c("FL", "AL", "MS", "LA", "TX")
-                      x2$Allocation <- sprintf("%1.1f%%", x2$Allocation)
+                      x2$Allocation <- sprintf("%1.2f%%", x2$Allocation)
                       x2}
         
       })
@@ -905,8 +912,8 @@ server <- function(input, output, session) {
         x2 <- data.frame(State=x, Percent=topNout[,1])
         rownames(x2) <- NULL
         x2$PercentACL <- x2$Percent*.577
-        x2$Percent <- sprintf("%1.1f%%", x2$Percent*100)
-        x2$PercentACL <- sprintf("%1.1f%%", x2$PercentACL*100)
+        x2$Percent <- sprintf("%1.2f%%", x2$Percent*100)
+        x2$PercentACL <- sprintf("%1.2f%%", x2$PercentACL*100)
         colnames(x2) <- c("State", "% Rec. ACL", "% Total ACL")
        x2
       })
@@ -1117,8 +1124,8 @@ server <- function(input, output, session) {
       x2 <- data.frame(State=x, Percent=topNout[,1])
       rownames(x2) <- NULL
       x2$PercentACL <- x2$Percent*.423
-      x2$Percent <- sprintf("%1.1f%%", x2$Percent*100)
-      x2$PercentACL <- sprintf("%1.1f%%", x2$PercentACL*100)
+      x2$Percent <- sprintf("%1.2f%%", x2$Percent*100)
+      x2$PercentACL <- sprintf("%1.2f%%", x2$PercentACL*100)
       colnames(x2) <- c("State", "% Rec. ACL", "% Total ACL")
       x2
 })
@@ -1420,6 +1427,12 @@ caption.width = getOption("xtable.caption.width", NULL))
                              LA=c(.2028,landOut[4],1),
                              TX=c(.4213,landOut[5],1))
       } else
+        
+ ########### March 1, 2018: JF Start here next time
+        #### copy code from for hire section.
+        #### shouldn't take much change
+        #### then add buttons to reflect options g-i
+        
         if(input$Id073=="For-hire"){
           tmp <- filter(ForHire, YEAR>= 1986 & YEAR <=2015 & YEAR !=2010)
           if(input$TimeSeriesSelect=="1986 - 2015"){
@@ -1608,7 +1621,7 @@ caption.width = getOption("xtable.caption.width", NULL))
         #replace row 2 of df with row 2 of df2
         df[3,] <- df2[3,]
         for(i in 2:6){
-          df[,i] <- sprintf("%1.1f%%", 100*df[,i])
+          df[,i] <- sprintf("%1.2f%%", 100*df[,i])
         }
         df <- rbind(df[1,],df[3,], df[2,])
         #RN <- input$Id073
@@ -1632,7 +1645,7 @@ caption.width = getOption("xtable.caption.width", NULL))
         TX <- (x[1,6] *input$a1) + (x[2,6] *input$c1) + (x2[3,6] *input$b1)
         States <- data.frame(Allocation=paste(input$Id073, "Allocation", sep=" "),FL=FL, AL=AL,MS=MS, LA=LA, TX=TX)
         for(i in 2:6){
-          States[,i] <- sprintf("%1.1f%%", 1*States[,i])
+          States[,i] <- sprintf("%1.2f%%", 1*States[,i])
         }
         
         States

@@ -91,82 +91,89 @@ ui <- function(request){
                                                           c("Exlude 2006" = 2006,
                                                             "Exlude 2014" = 2014,
                                                             "Exlude 2015" = 2015),
-                                                          selected=2006, inline=TRUE),align="center"),
+                                                          #selected=2006, 
+                                                          inline=TRUE),align="center"),
                                           
                                        hr(),
+                                       div(
+                                       radioButtons(inputId = "Alt2SectorAllocation",
+                                                    inline=TRUE,
+                                                     label = "Apply sector allocation to state percentages", 
+                                                    choices = c("No",
+                                                                "Yes")),align="center"),
                                        box(tableOutput("summaryTable"), width=6),
                                        box(tableOutput("summaryTableForHire"), width=6)
                                                                         ),
-                              tabPanel("Alternative 3", p(Alt3Text),
-                                       radioButtons(inputId = "Alt3Radio", 
-                                                    label = "Alternative 3 options", 
-                                                    choices = c("Option 3a: 1986 - 2009",
-                                                                "Option 3b: 1996 - 2009",
-                                                                "Option 3c: 2006 - 2009", 
-                                                                "Option 3d: 50% of average historical landings for the years 1986-2009 and 50% of average historical landings for the years 2006-2009"), 
-                                                    selected = "Option 3a: 1986 - 2009",  width='600px'),
-                                     
-                                       # p('* More than one option may be selected'),
-                                       # p('** Not applicable to Alternative 3'),
-                                       hr(),
-                                       box(tableOutput("summaryTableAlt3"), width=6),
-                                       box(tableOutput("summaryTableForHireAlt3"), width=6)
-                                      ),
-                              tabPanel("Alternative 4", p(Alt4Text),
-                                       fluidRow(
-                                         column(3),
-                                         column(6,
-                                       selectInput("selectOption", multiple=FALSE,
-                                                   h3("Select start year"),
-                                                   c("Option a: 1986"="OptionA",
-                                                     "Option b: 1996"="OptionB",
-                                                     "Option c: 2006"="OptionC",
-                                                     "Option d: 1986 and 2006"="OptionD"),
-                                                   selected=c("OptionA"))
-                                       ),
-                                       column(3)
-                                       ), ##end fluidRow
-                                       fluidRow(
-                                         column(3),
-                                         column(6,
-                                       selectInput("selectAlternative", multiple=FALSE,
-                                                   h3("Select end year"),
-                                                   c("Alternative 2: 2015"="ALT2",
-                                                     "Alternative 3: 2009"="ALT3"),
-                                                   selected=c("ALT2"))
-                                         ),
-                                       column(3)
-                                       ), ##end fluidRow
-                                       
-                              fluidRow(
-                                column(3),
-                                column(6,
-                              uiOutput("conditionalInput"),
-                              conditionalPanel(
-                                condition = "input.selectAlternative == 'ALT2'",
-                                checkboxGroupInput("ALT2", "Alt 2",
-                                                   c("Exlude 2006" = 2006,
-                                                     "Exlude 2010" = 2010,
-                                                     "Exlude 2014" = 2014,
-                                                     "Exlude 2015" = 2015),
-                                                   selected=2010)
-                                                      ),
-                              conditionalPanel(
-                                condition = "input.selectAlternative == 'ALT3'",
-                                checkboxGroupInput("ALT3", "Alternative 3",
-                                                   c("Exlude 2006" = 2006
-                                                          ))#,
-                                # box(tableOutput("test"), width=6)
-                              )),
-                              column(3)
-                                ), #endfluid row
-                              hr(),
-                              box(tableOutput("summaryTableAlt4Private"), width=6),
-                              box(tableOutput("summaryTableAlt4ForHire"), width=6)
-                              
-                              #box(tableOutput("test"), width=6)
-                              ),
-                                       
+                              # tabPanel("Alternative 3", p(Alt3Text),
+                              #          radioButtons(inputId = "Alt3Radio", 
+                              #                       label = "Alternative 3 options", 
+                              #                       choices = c("Option 3a: 1986 - 2009",
+                              #                                   "Option 3b: 1996 - 2009",
+                              #                                   "Option 3c: 2006 - 2009", 
+                              #                                   "Option 3d: 50% of average historical landings for the years 1986-2009 and 50% of average historical landings for the years 2006-2009"), 
+                              #                       selected = "Option 3a: 1986 - 2009",  width='600px'),
+                              #        
+                              #          # p('* More than one option may be selected'),
+                              #          # p('** Not applicable to Alternative 3'),
+                              #          hr(),
+                              #          box(tableOutput("summaryTableAlt3"), width=6),
+                              #          box(tableOutput("summaryTableForHireAlt3"), width=6)
+                              #         ),
+                              # tabPanel("Alternative 4", p(Alt4Text),
+                              #          fluidRow(
+                              #            column(3),
+                              #            column(6,
+                              #          selectInput("selectOption", multiple=FALSE,
+                              #                      h3("Select start year"),
+                              #                      c("Option a: 1986"="OptionA",
+                              #                        "Option b: 1996"="OptionB",
+                              #                        "Option c: 2006"="OptionC",
+                              #                        "Option d: 1986 and 2006"="OptionD"),
+                              #                      selected=c("OptionA"))
+                              #          ),
+                              #          column(3)
+                              #          ), ##end fluidRow
+                              #          fluidRow(
+                              #            column(3),
+                              #            column(6,
+                              #          selectInput("selectAlternative", multiple=FALSE,
+                              #                      h3("Select end year"),
+                              #                      c("Alternative 2: 2015"="ALT2",
+                              #                        "Alternative 3: 2009"="ALT3"),
+                              #                      selected=c("ALT2"))
+                              #            ),
+                              #          column(3)
+                              #          ), ##end fluidRow
+                              #          
+                              # fluidRow(
+                              #   column(3),
+                              #   column(6,
+                              # uiOutput("conditionalInput"),
+                              # conditionalPanel(
+                              #   condition = "input.selectAlternative == 'ALT2'",
+                              #   checkboxGroupInput("ALT2", "Alt 2",
+                              #                      c("Exlude 2006" = 2006,
+                              #                        "Exlude 2010" = 2010,
+                              #                        "Exlude 2014" = 2014,
+                              #                        "Exlude 2015" = 2015),
+                              #                      selected=2010)
+                              #                         ),
+                              # conditionalPanel(
+                              #   condition = "input.selectAlternative == 'ALT3'",
+                              #   checkboxGroupInput("ALT3", "Alternative 3",
+                              #                      c("Exlude 2006" = 2006
+                              #                             ))#,
+                              #   # box(tableOutput("test"), width=6)
+                              # )),
+                              # column(3)
+                              #   ), #endfluid row
+                              # hr(),
+                              # box(tableOutput("summaryTableAlt4Private"), width=6),
+                              # box(tableOutput("summaryTableAlt4ForHire"), width=6)
+                              # 
+                              # #box(tableOutput("test"), width=6)
+                              # ),
+                              #          
                             
                               tabPanel("Alternative 5", p(Alt5Text),
                                       # box(
@@ -210,29 +217,11 @@ column(12, div(HTML("<h4 id='A6title' style='text-align:center;' ><b>**Select an
 ##############Experimental with action buttons
 fluidRow(
   column(12,
-         actionButton("goButton", "6a:  25% biomass, 75% trips"),
-         actionButton("goButton2", "6b:  50% biomass, 50% trips"),
-         actionButton("goButton3", "6c:  75% biomass, 25% trips")
+         actionButton("goButton", "5g:  25% biomass, 75% trips"),
+         actionButton("goButton2", "5h:  50% biomass, 50% trips"),
+         actionButton("goButton3", "5i:  75% biomass, 25% trips")
   )
 ),
-##############Experimental with action buttons
-
-
-                                       fluidRow(
-# column(5,HTML('<a  href="https://gulfcouncilportal.shinyapps.io/RedSnapperDecisionSupportTool/?_inputs_&a1=0.5&ALT2=%222010%22&Alt2Radio=%22Option%202a%3A%201986%20-%202015%22&ALT3=null&Alt3Radio=%22Option%203a%3A%201986%20-%202009%22&b1=0&c1=0.5&map_bounds=%7B%22north%22%3A38.0653923513325%2C%22east%22%3A-73.1689453125%2C%22south%22%3A14.6898813666188%2C%22west%22%3A-102.83203125%7D&map_center=%7B%22lng%22%3A-88%2C%22lat%22%3A27%7D&map_groups=%22biomass%22&map_zoom=5&selectAlternative=%22ALT2%22&selectOption=%22OptionA%22&sidebarCollapsed=false&sidebarItemExpanded=null&tabP1=%22Alternative%206%22&tabP2=%22Alternative%206%22&topNumber=10&Year=%5B1986%2C2015%5D">
-#                 <h4 class="btn btn-default action-button" style="fontweight:600">Option 6b:  50% biomass, 50% trips</h4>
-#                                             </a>')),
-#column(2, HTML('<b>Or </b>')),
-#column(12, div(HTML("<h4 id='A6Note' style='text-align:center;' ><b>Results displayed in orange box below</b>")))
-),
-#                                        fluidRow(
-# column(12, HTML('<a  href="https://gulfcouncilportal.shinyapps.io/RedSnapperDecisionSupportTool/?_inputs_&a1=0.25&ALT2=%222010%22&Alt2Radio=%22Option%202a%3A%201986%20-%202015%22&ALT3=null&Alt3Radio=%22Option%203a%3A%201986%20-%202009%22&b1=0&c1=0.75&map_bounds=%7B%22north%22%3A38.0653923513325%2C%22east%22%3A-73.1689453125%2C%22south%22%3A14.6898813666188%2C%22west%22%3A-102.83203125%7D&map_center=%7B%22lng%22%3A-88%2C%22lat%22%3A27%7D&map_groups=%22biomass%22&map_zoom=5&selectAlternative=%22ALT2%22&selectOption=%22OptionA%22&sidebarCollapsed=false&sidebarItemExpanded=null&tabP1=%22Alternative%206%22&tabP2=%22Alternative%206%22&topNumber=10&Year=%5B1986%2C2015%5D">
-#                 <h4 class="btn btn-default action-button" style="fontweight:600">Option 6c:  75% biomass, 25% trips</h4>
-#                                             </a>'))),
-# fluidRow(
-#   column(12, HTML('<a  href="https://gulfcouncilportal.shinyapps.io/RedSnapperDecisionSupportTool/?_inputs_&a1=0.25&ALT2=%222010%22&Alt2Radio=%22Option%202a%3A%201986%20-%202015%22&ALT3=null&Alt3Radio=%22Option%203a%3A%201986%20-%202009%22&b1=0&c1=0.75&map_bounds=%7B%22north%22%3A38.0653923513325%2C%22east%22%3A-73.1689453125%2C%22south%22%3A14.6898813666188%2C%22west%22%3A-102.83203125%7D&map_center=%7B%22lng%22%3A-88%2C%22lat%22%3A27%7D&map_groups=%22biomass%22&map_zoom=5&selectAlternative=%22ALT2%22&selectOption=%22OptionA%22&sidebarCollapsed=false&sidebarItemExpanded=null&tabP1=%22Alternative%206%22&tabP2=%22Alternative%206%22&topNumber=10&Year=%5B1986%2C2015%5D">
-#                 <h4 class="btn btn-default action-button" style="fontweight:600">Use landings data only</h4>
-#                                             </a>'))),
 
 #hr(),
 fluidRow(
@@ -263,7 +252,7 @@ fluidRow(
                                         
                                          column(12,align="center",br(),
                                                 bookmarkButton(label="Save settings")),
-                                         column(12, HTML("<br>*2010 data were excluded from all times series considered here.<br>**Options were developed by the Gulf Council at their October 2017 meeting.  <br> ***An option to consider landings as a weighting factor was added for covenience but has not been reviewed by the Gulf Council and is intended for exploratory use only."))
+                                         column(12, HTML("<br>*2010 data were excluded from all times series considered here.<br>**Options were modified by the Gulf Council at their January 2018 meeting.  <br> ***An option to consider landings as a weighting factor was added for covenience."))
                                        
                                        )
                                         ),
@@ -288,13 +277,13 @@ fluidRow(
                               tabPanel("Alternative 2", p(""),
                                        highchartOutput("landingsChart"),
                                        highchartOutput("landingsChartForHire")),
-                              tabPanel("Alternative 3", p(" "),
-                                       highchartOutput("landingsChartAlt3"),
-                                       highchartOutput("landingsChartForHireAlt3")), ##UD
-                              tabPanel("Alternative 4", p(" "),
-                                       highchartOutput("landingsChartAlt4"),
-                                       highchartOutput("landingsChartAlt4ForHire")),
-                                       
+                              # tabPanel("Alternative 3", p(" "),
+                              #          highchartOutput("landingsChartAlt3"),
+                              #          highchartOutput("landingsChartForHireAlt3")), ##UD
+                              # tabPanel("Alternative 4", p(" "),
+                              #          highchartOutput("landingsChartAlt4"),
+                              #          highchartOutput("landingsChartAlt4ForHire")),
+                              #          
                                       
                               tabPanel("Alternative 5", p(""),
                                        highchartOutput("topNlandingsOut"),
