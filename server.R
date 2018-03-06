@@ -1780,6 +1780,59 @@ caption.width = getOption("xtable.caption.width", NULL))
         updateNumericInput(session, "b1", value = 25)
         updateNumericInput(session, "c1", value = 0)
       })
+############################## Experimental Report Generation #####
+      
+      values <- reactiveValues()
+
+      values$df <- c()
+      #newEntry <- observeEvent(input$report,{ 
+        newEntry <- observe({ input$report
+        newLine <- isolate(c(input$Id073,input$TimeSeriesSelect,
+                             input$a1,input$c1,input$b1))
+          isolate(values$df <- rbind(values$df, newLine))
+      })
+      
+  
+      output$report <- renderTable({
+        values$df
+        })
+      
+      output$downloadReport <- downloadHandler(
+        filename = function() {
+          paste('my-report', sep = '.', switch(
+            input$format, PDF = 'pdf', HTML = 'html', Word = 'docx'
+          ))
+        },
+        
+        content = function(file) {
+          src <- normalizePath('report.Rmd')
+          
+          # temporarily switch to the temp dir, in case you do not have write
+          # permission to the current working directory
+          owd <- setwd(tempdir())
+          on.exit(setwd(owd))
+          file.copy(src, 'report.Rmd', overwrite = TRUE)
+          
+          library(rmarkdown)
+          out <- render('report.Rmd', switch(
+            input$format,
+            PDF = pdf_document(), HTML = html_document(), Word = word_document()
+          ))
+          file.rename(out, file)
+        }
+      )  
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
  ###################     
   observe({
     

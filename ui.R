@@ -251,7 +251,8 @@ fluidRow(
                                          bsAlert("alert"),
                                         
                                          column(12,align="center",br(),
-                                                bookmarkButton(label="Save settings")),
+                                                actionButton("report", "Add to report")),
+                                                #bookmarkButton(label="Save settings")),
                                          column(12, HTML("<br>*2010 data were excluded from all times series considered here.<br>**Options were modified by the Gulf Council at their January 2018 meeting.  <br> ***An option to consider landings as a weighting factor was added for covenience."))
                                        
                                        )
@@ -290,7 +291,12 @@ fluidRow(
                                        highchartOutput("topNlandingsOutForHire")),
                               tabPanel("Alternative 6", p("Interactive map of red snapper biomass in the Gulf of Mexico.
                                                           Note, this may take a moment to load, please be patient."),
-                                       leafletOutput('map',height=600),
+                                       tableOutput("report"),
+                                       #leafletOutput('map',height=600),
+                                       div(downloadButton('export'),align="Center"),
+                                       radioButtons('format', 'Document format', c('PDF', 'HTML', 'Word'),
+                                                    inline = TRUE),
+                                       downloadButton('downloadReport'),
                                        p("Data source: Mandy Karnauskas, John F. Walter III, Matthew D. Campbell, Adam G. Pollack, J. Marcus Drymon & Sean Powers.
 2017. Red Snapper Distribution on Natural Habitats and Artificial Structures in the Northern Gulf of Mexico.Marine and Coastal Fisheries Vol. 9 , Iss. 1,2017")),
                               width = NULL

@@ -1,0 +1,6 @@
+Here is my regression model: 
+
+```{r model, collapse=TRUE,echo=FALSE}
+library(knitr)
+kable(values$df)
+```
