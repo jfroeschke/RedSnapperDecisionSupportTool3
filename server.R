@@ -1792,11 +1792,70 @@ caption.width = getOption("xtable.caption.width", NULL))
           isolate(values$df <- rbind(values$df, newLine))
       })
       
+        tmpR <- reactive({
+          tmp <- data.frame(values$df)
+          colnames(tmp) <- c( 'Component',
+                              'Years','Biomass',
+                              'Trips', 'Landings')
+          tmp
+        })
+        
+        tmpR2 <- reactive({
+          tmp <- tmpR()
+         vars <- colsplit(tmp$Years, "-", c("start", "end"))
+         #vars <- as.numeric(as.character(vars))
+          tmp <- cbind(tmp, vars)
+        })
   
       output$report <- renderTable({
-        values$df
+        tmpR()
+        # tmp <- data.frame(values$df)
+        # colnames(tmp) <- c( 'Component',
+        #                    'Years','Biomass',
+        #                    'Trips', 'Landings')
+        # tmp
         })
       
+      ## replicate reactive x without the formatting
+      xtest <- reactive({
+        x <- dfTool()
+        x2 <- dfToolEffort()
+        ##Note: inputs c1 and b1 were switched as table order was reversed
+        ## for Effort and Landings
+        FL <- (x[1,2] *input$a1) + (x[2,2] *input$c1) + (x2[3,2] *input$b1)
+        # FL <- input$c1
+        AL <- (x[1,3] *input$a1) + (x[2,3] *input$c1) + (x2[3,3] *input$b1)
+        MS <- (x[1,4] *input$a1) + (x[2,4] *input$c1) + (x2[3,4] *input$b1)
+        LA <- (x[1,5] *input$a1) + (x[2,5] *input$c1) + (x2[3,5] *input$b1)
+        TX <- (x[1,6] *input$a1) + (x[2,6] *input$c1) + (x2[3,6] *input$b1)
+        States <- data.frame(Allocation=paste(input$Id073, "Allocation", sep=" "),FL=FL, AL=AL,MS=MS, LA=LA, TX=TX)
+        # for(i in 2:6){
+        #   States[,i] <- sprintf("%1.2f%%", 1*States[,i])
+        # }
+        #
+        States
+      })
+      # # 
+      # ####create additive table of outputs for chart
+      values2 <- reactiveValues()
+      #
+      values2$df <- c()
+      # newEntry <- observeEvent(input$report,{
+      newEntry <- observe({ input$report
+        newLine <- isolate(xtest())
+        isolate(values2$df <- rbind(values2$df, newLine))
+      })
+      # # 
+      tmpRtest <- reactive({
+        tmp <- data.frame(values2$df)
+        # colnames(tmp) <- c( 'Component',
+        #                     'Years','Biomass',
+        #                     'Trips', 'Landings')
+        tmp
+      })
+
+       output$xtest2 <- renderTable({tmpRtest()},width='300px',colnames=TRUE)
+      # 
       output$downloadReport <- downloadHandler(
         filename = function() {
           paste('my-report', sep = '.', switch(
@@ -1822,17 +1881,7 @@ caption.width = getOption("xtable.caption.width", NULL))
         }
       )  
       
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
+    
  ###################     
   observe({
     

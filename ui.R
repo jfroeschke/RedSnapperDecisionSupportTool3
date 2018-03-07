@@ -293,10 +293,11 @@ fluidRow(
                                                           Note, this may take a moment to load, please be patient."),
                                        tableOutput("report"),
                                        #leafletOutput('map',height=600),
-                                       div(downloadButton('export'),align="Center"),
-                                       radioButtons('format', 'Document format', c('PDF', 'HTML', 'Word'),
+                                       
+                                       div(radioButtons('format', 'Document format', c('PDF', 'HTML', 'Word'),
                                                     inline = TRUE),
-                                       downloadButton('downloadReport'),
+                                       downloadButton('downloadReport'),align="Center"),
+                                       tableOutput("xtest2"),
                                        p("Data source: Mandy Karnauskas, John F. Walter III, Matthew D. Campbell, Adam G. Pollack, J. Marcus Drymon & Sean Powers.
 2017. Red Snapper Distribution on Natural Habitats and Artificial Structures in the Northern Gulf of Mexico.Marine and Coastal Fisheries Vol. 9 , Iss. 1,2017")),
                               width = NULL

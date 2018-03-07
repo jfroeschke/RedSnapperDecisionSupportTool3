@@ -1,6 +1,13 @@
-Here is my regression model: 
+Summary report: 
 
 ```{r model, collapse=TRUE,echo=FALSE}
 library(knitr)
 kable(values$df)
+```
+put some space in here
+
+
+```{r model2, collapse=TRUE,echo=FALSE}
+library(knitr)
+kable(values2$df)
 ```
