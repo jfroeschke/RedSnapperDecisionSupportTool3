@@ -48,7 +48,9 @@ ui <- function(request){
                                        ),
                               
                         
-                              tabPanel("Alternative 2", p(Alt2Text),
+                              tabPanel("Alternatives  2 - 3", p(Alt2Text),
+                                       br(),
+                                       p(Alt4Text),
                                        hr(),
                                        div(
                                        pickerInput(
@@ -175,7 +177,7 @@ ui <- function(request){
                               # ),
                               #          
                             
-                              tabPanel("Alternative 5", p(Alt5Text),
+                              tabPanel("Alternative 4", p(Alt5Text),
                                       # box(
                                       #   sliderInput("topNumber", "Select number of years to include:", sep="",min = 5, max = 15, value = c(10)),
                                       #   sliderInput("Year", "Select Years:", sep="",min = 1986, max = 2015, value = c(1986,2015))
@@ -195,23 +197,25 @@ ui <- function(request){
                                       #box(tableOutput("topNdata"), width=12)
                                       ), #end tabpanel 5
                               
-                              tabPanel("Alternative 6", p(Alt6Text),
+                              tabPanel("Alternative 5", p(Alt6Text),
+                                       hr(),
+                                      div(HTML("<h4>Explore allocation scenarios using the options below.  Its as easy as 1, 2, 3.</h4>"), align="Center"),
                                        #bookmarkButton(label="Save settings"),
                                        fluidRow(
 column(6, radioGroupButtons(inputId = "Id073", 
-                             label = "Select recreational component:", choices = c("Total", 
+                             label = "1: Select recreational component:", choices = c("Total", 
                                                           "Private", "For-hire"), individual = TRUE, 
                              checkIcon = list(yes = tags$i(class = "fa fa-circle", 
                                                            style = "color: steelblue"), 
                                               no = tags$i(class = "fa fa-circle-o", 
                                                           style = "color: steelblue")))), 
 column(6, pickerInput(inputId = "TimeSeriesSelect", 
-                      label = "*Select time series for trips/landings",
+                      label = "*2: Select time series for trips/landings",
                       choices = list("Select years" = c("1986 - 2009","1986 - 2015", "2006 - 2009",#"50% 1986 - 2015: 50% 2006 -2015",
                                                         "50% of the average 1986-2009 and 50% of the average 2006-2009", 
                                                         "50% of the average 1986-2015 and 50% of the average 2006-2015" 
                                                                                                           )))),
-column(12, div(HTML("<h4 id='A6title' style='text-align:center;' ><b>**Select an option</b>"))
+column(12, div(HTML("<h4 id='A6title' style='text-align:center;' ><b>**3a: Select a weighted value</b>"))
       )
   ),
 ##############Experimental with action buttons
@@ -227,13 +231,15 @@ fluidRow(
 fluidRow(
     column(2),
     column(8,
-           div(HTML("<h4 id='A6Inst' style='text-align:center;' > <b>Or...create your own option by <br> specifying percentages for variables in green boxes to calculate weighted allocations.</b></h4>"))),
+           div(HTML("<h4 id='A6Inst' style='text-align:center;' > <b> 3b: Or define your own weighting combinations</b></h4>"))),
     column(2)),
            
                                        
                                        fluidRow(
                                          column(2),
                                          column(2,  inline_numericInput(numericInput("a1", label = "Biomass", value = 50, min=0, max=100, step=1))),
+                                         bsTooltip("a1", "Data source: Mandy Karnauskas, John F. Walter III, Matthew D. Campbell, Adam G. Pollack, J. Marcus Drymon & Sean Powers. 2017. Red Snapper Distribution on Natural Habitats and Artificial Structures in the Northern Gulf of Mexico.Marine and Coastal Fisheries Vol. 9 , Iss. 1,2017",  
+                                                   "right", options = list(container = "body")),
                                          column(2, inline_numericInput(numericInput("b1", label = "Trips", value = 25, min=0, max=100, step=1))),
                                          column(2, inline_numericInput(numericInput("c1", label = "***Landings", value = 25, min=0, max=100, step=1))),
                           
@@ -252,6 +258,8 @@ fluidRow(
                                         
                                          column(12,align="center",br(),
                                                 actionButton("report", "Add to report")),
+                                         bsTooltip("report", "Click this button to save the selection. You can save additional and compare using the tables on right. Once completed you can export a report of results using the save summary report button.",  
+                                                   "right", options = list(container = "body")),
                                                 #bookmarkButton(label="Save settings")),
                                          column(12, HTML("<br>*2010 data were excluded from all times series considered here.<br>**Options were modified by the Gulf Council at their January 2018 meeting.  <br> ***An option to consider landings as a weighting factor was added for covenience."))
                                        
@@ -275,7 +283,7 @@ fluidRow(
                                        #div(id='pic',img(src="IMG_3627_RS.JPG"))))),
                                        #div(HTML('<img src="www/IMG_3627_RS.JPG" alt="" width="50%" height="30%" />')
                                        ))),
-                              tabPanel("Alternative 2", p(""),
+                              tabPanel("Alternatives  2 - 3", p(""),
                                        highchartOutput("landingsChart"),
                                        highchartOutput("landingsChartForHire")),
                               # tabPanel("Alternative 3", p(" "),
@@ -286,20 +294,30 @@ fluidRow(
                               #          highchartOutput("landingsChartAlt4ForHire")),
                               #          
                                       
-                              tabPanel("Alternative 5", p(""),
+                              tabPanel("Alternative 4", p(""),
                                        highchartOutput("topNlandingsOut"),
                                        highchartOutput("topNlandingsOutForHire")),
-                              tabPanel("Alternative 6", p("Interactive map of red snapper biomass in the Gulf of Mexico.
-                                                          Note, this may take a moment to load, please be patient."),
+                              tabPanel("Alternative 5", 
+# p("Interactive map of red snapper biomass in the Gulf of Mexico.
+#                                                           Note, this may take a moment to load, please be patient."),
+                                       highchartOutput("allocationBarChart"),
+                                       hr(),
+div(HTML("<h4>Selected options for comparison</h4>"),align="Center"),
                                        tableOutput("report"),
                                        #leafletOutput('map',height=600),
-                                       
+
+                                           tableOutput("xtest2"),
                                        div(radioButtons('format', 'Document format', c('PDF', 'HTML', 'Word'),
-                                                    inline = TRUE),
-                                       downloadButton('downloadReport'),align="Center"),
-                                       tableOutput("xtest2"),
-                                       p("Data source: Mandy Karnauskas, John F. Walter III, Matthew D. Campbell, Adam G. Pollack, J. Marcus Drymon & Sean Powers.
-2017. Red Snapper Distribution on Natural Habitats and Artificial Structures in the Northern Gulf of Mexico.Marine and Coastal Fisheries Vol. 9 , Iss. 1,2017")),
+                                                        inline = TRUE),
+                                           downloadButton('downloadReport', label="Save summary report"),align="Center"),
+bsTooltip("downloadReport", "Click this button to save the select options as a summary report.",  
+          "right", options = list(container = "body"))
+                                       #hr(),
+                                       #plotOutput("ggplotOut"),
+                                      
+#                                        p("Data source: Mandy Karnauskas, John F. Walter III, Matthew D. Campbell, Adam G. Pollack, J. Marcus Drymon & Sean Powers.
+# 2017. Red Snapper Distribution on Natural Habitats and Artificial Structures in the Northern Gulf of Mexico.Marine and Coastal Fisheries Vol. 9 , Iss. 1,2017")
+                                        ),
                               width = NULL
                        ) 
                        

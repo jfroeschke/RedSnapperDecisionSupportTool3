@@ -1797,6 +1797,7 @@ caption.width = getOption("xtable.caption.width", NULL))
           colnames(tmp) <- c( 'Component',
                               'Years','Biomass',
                               'Trips', 'Landings')
+          tmp$Option <- 1:nrow(tmp)
           tmp
         })
         
@@ -1808,7 +1809,9 @@ caption.width = getOption("xtable.caption.width", NULL))
         })
   
       output$report <- renderTable({
-        tmpR()
+        tmp <- tmpR()
+        
+        tmp
         # tmp <- data.frame(values$df)
         # colnames(tmp) <- c( 'Component',
         #                    'Years','Biomass',
@@ -1851,11 +1854,76 @@ caption.width = getOption("xtable.caption.width", NULL))
         # colnames(tmp) <- c( 'Component',
         #                     'Years','Biomass',
         #                     'Trips', 'Landings')
+        tmp$Option <- 1:nrow(tmp)
         tmp
       })
-
-       output$xtest2 <- renderTable({tmpRtest()},width='300px',colnames=TRUE)
-      # 
+      
+      ## ggplot report
+      ggplotReport <- reactive({
+        tmp <- tmpRtest()
+        gp.long <- melt(tmp[,2:7], id.vars="Option")
+        p <- ggplot(gp.long,aes(x=variable,y=value,fill=factor(Option)))+
+          geom_bar(stat="identity",position="dodge") +
+          scale_fill_discrete(name='Option') +
+          ylab("Percent allocation") +
+          theme_hc() #+
+          #ggtitle("Percent allocation")
+        # print(p)
+        p
+      })
+      
+      output$ggplotOut<-renderPlot({ggplotReport()})
+      
+      tmpRChart <- reactive({
+           tmp2 <-  xtest()
+           tmp3 <- tmp2[2:6]
+           tmp4 <- t(tmp3)
+           tmp4 <- as.data.frame(tmp4)
+           colnames(tmp4) <- "Allocation"
+           
+           tmp4$Allocation <- as.numeric(as.character(tmp4$Allocation))
+           tmp4$States <- c("FL", "AL", "MS", "LA", "TX")
+           tmp4
+           # tmp4 <- data.frame(Allocation=t(tmp3))
+           #class(tmp2)
+           # tmp4$States <- c("FL", "AL", "MS", "LA", "TX")
+           # colnames(tmp4) <- c("Allocation","States")
+        })
+      output$xtest2 <- renderTable({tmpRtest()},width='300px',colnames=TRUE)
+       # output$xtest2 <- renderTable({tmpRChart()},width='300px',colnames=TRUE)
+     #### Add highchart to display allocation table as a chart
+       ########## test high chart of all landings
+       allocationBarChartReactive <- reactive({
+         tmpRChart <-  tmpRChart()
+         colnames(tmpRChart) <- c("Allocation", "States")
+         colors2=c("#fb9a99","#33a02c","#b2df8a","#1f78b4","#a6cee3")
+         hc <- highchart() %>%
+           hc_title(text= "Allocation based on selected options") %>%
+           #hc_subtitle(text="put in selected option here") %>% 
+           hc_subtitle(text=HTML(paste("Recreational component: ", input$Id073, "<br>",
+                                       "Selectetd years: ", input$TimeSeriesSelect, "<br>",
+                                       "Weighting combination: Biomass = ", input$a1, 
+                                       "Trips = ", input$c1, "Landings = ", input$b1, 
+                                  sep=" "))) %>% 
+           hc_chart(type = "column") %>% 
+           hc_xAxis(categories = tmpRChart$States) %>% 
+           hc_yAxis(title=list(text="Percent allocation")) %>% 
+           hc_add_series(tmpRChart$Allocation, 
+                         name = "states", 
+                         showInLegend = FALSE) %>% 
+           hc_plotOptions(
+             column = list(
+               colorByPoint = TRUE,
+               colors=colors2
+             ))
+         
+         
+         hc
+       })
+       output$allocationBarChart <- renderHighchart({allocationBarChartReactive()})
+       ### Add ggplot code of tmpRtest() for markdown report
+      
+        # 
       output$downloadReport <- downloadHandler(
         filename = function() {
           paste('my-report', sep = '.', switch(

@@ -10,6 +10,10 @@ library(sf)
 library(shinyBS)
 library(shinyjs)
 library(htmltools)
+library(ggthemes)
+library(RCurl)
+library(png)
+library(grid)
 # library(glue)
 # library(shinycssloaders)
 
@@ -146,49 +150,25 @@ Alt3Text <- HTML("<b>Alternative 3</b> provides four options to apportion the
                  resulting percentages from apportioning the private angling 
                  component ACL by state for <b>Alternative 3</b>.")
 
-Alt4Text <- HTML("<b>Alternative 4</b> provides options for excluding particular years
-                 from the historical landings averages:  2006 (<b>Option 4a</b>), 2010 
-                 (<b>Option 4b</b>), 2014 (<b>Option 4c</b>), and 2015 (<b>Option 4d</b>).  Options
-                 to exclude 2006 and 2010 are due to impacts that affected 
-                 recreational fishing opportunities during or immediately 
-                 preceding those years.  Hurricane Katrina struck late in the 
-                 fishing season of 2005, therefore landings from 2006 are 
-                 provided for exclusion.  The Deepwater Horizon MC252 oil spill 
-                 began in April 2010, prior to the opening of the 2010 
-                 recreational red snapper season.  Due to the complexity 
-                 associated with assigning landings between components given 
-                 the substantial fishery closures and the extended federal season,
-                 landings from 2010 should be viewed with caution and are not 
-                 included for any alternatives in Tables 2.2.1 and 2.2.2.  
-                 The Southeast Regional Office has excluded 2010 landings in all
-                 season projection analyses for similar reasons.  Options to
-                 exclude landings from 2014 and 2015 are provided because these
-                 years were not included in the allocation formula used to 
-                 calculate the private angling and federal for-hire components 
-                 allocation in Amendment 40, and because the headboat 
-                 collaborative pilot program operated during those years.  
-                 The options under Alternative 4 may be selected individually, 
-                 or multiple options could be selected alongside any of Options 
-                 a-d under <b>Alternative 2</b> or <b>3</b>.  In Amendment 40 (GMFMC 2014a), 
-                 the Council chose to exclude landings from 2010 (<b>Option 4b</b>) 
-                 from the allocation formula, but did not exclude landings from 
-                 2006 (<b>Option 4a</b>).")
+Alt4Text <- HTML("<b>Alternative 3</b> provides options for excluding particular years
+                 from the historical landings averages:  
+2006 (<b>Option 4a</b>),  2014 (<b>Option 3b</b>), and 2015 (<b>Option 3c</b>).")
 
 Alt5Text <- HTML("
-<b>Alternative 5</b>:  Establish an allocation of the recreational sector ACL that may 
+<b>Alternative 4</b>:  Establish an allocation of the recreational sector ACL that may 
 be used for state management programs by apportioning the private angling ACL 
 and federal for-hire ACL among the states based on each state’s average of the 
 best ten years of historical landings for the years 1986-2015.
 <p>
-Alternative 5 would apportion the recreational sector ACL by 
+Alternative 4 would apportion the recreational sector ACL by 
 averaging each state’s highest 10 years of red snapper landings for each 
 component for the years 1986-2015, and then converting the average landings
 into percentages.
-<p> Alternative 5 currently considers only the top 10 years for each state
+<p> Alternative 4 currently considers only the top 10 years for each state
 from 1986 through 2015 (2010 excluded).  However, a different number of years
 or range of years could be selected.  Use the sliders below to explore these options.")
 
-Alt6Text <- HTML("<b>Alternative 6</b> would establish an allocation of the 
+Alt6Text <- HTML("<b>Alternative 5</b> would establish an allocation of the 
 recreational sector ACL that may be used for state management programs by
 apportioning the private angling ACL and federal for-hire ACL among the states 
 based on spatial abundance of red snapper biomass and recreational trips based

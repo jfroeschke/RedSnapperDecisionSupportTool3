@@ -1,13 +1,49 @@
-Summary report: 
+---
+title: "Summary report"
+author: "Gulf of Mexico Fishery Management Council"
+date: "Report last ran on `r Sys.Date()`"
+header:
+  image: "www/logo.png"
+  caption: "Image credit: [Florida Keys National Marine Sanctuary](http://floridakeys.noaa.gov/plants/mangroves.html/)"
+---
+The Gulf of Mexico Fishery Management Council is considering a State Management Program (http://gulfcouncil.org/wp-content/uploads/Recreational-State-Management-for-Red-Snapper-1-16-2018.pdf) to allow individual states to establish seasons and bag limits to provide more flexibility to their anglers. This amendment (http://gulfcouncil.org/wp-content/uploads/Recreational-State-Management-for-Red-Snapper-1-16-2018.pdf) contains two actions. The first addresses the recreational sector components that a state management program would manage and the second considers methods to allocate the harvest among the Gulf states.
+
+This report summarizes the selected options in Action 2 to determine a state based allocation for recreationally harvested red snapper.  This report is based on Alternatives the Council will consider at their April 2018 Council meeting in Gulfport, MS. 
+The user selected options are described in Table 1.  The allocation (on percent basis) for each selected option is available in Table 2 and Figure 1.  
 
 ```{r model, collapse=TRUE,echo=FALSE}
 library(knitr)
-kable(values$df)
+#kable(values$df)
+kable(tmpR(),row.names=FALSE, caption="Table 1.  Selected options to calculate allocation of recreationally harvested red snapper among five coastal US states adjoining the US Gulf of Mexico.")
 ```
-put some space in here
 
 
 ```{r model2, collapse=TRUE,echo=FALSE}
 library(knitr)
-kable(values2$df)
+#kable(data.frame(values2$df))
+kable(tmpRtest(), digits=2, row.names=FALSE, caption="Table 2. Allocation of recreationally harvested red snapper among five states.  The values selected for each variable is described in Table 1." )
 ```
+
+```{r pressure, echo=FALSE, fig.width=4, fig.cap="Percent allocation.  Settings are selected options are described in Table 1."}
+plot(ggplotReport())
+```
+
+This report was generated from the red snapper decision support tool (v3.0) available at http://portal.gulfcouncil.org/RedSnapperDecisionSupportTool/. You can submit comments about this proposed amendment here: https://docs.google.com/forms/d/e/1FAIpQLSdS4V2vpjJdeXYwGd4126vvkOlp5328cd0pCvAka7S2JpOIVg/viewform. 
+
+
+Plases send technical questions or concerns about this website or report to john.froeschke@gulfcouncil.org.
+
+<br>
+
+```{r fig.width=5, fig.height=1,fig.align="center", warning=FALSE, echo=FALSE, message=FALSE}
+
+library(png)
+library(grid)
+library(RCurl)
+
+myurl <- "http://portal.gulfcouncil.org/logo.png"
+img <-  readPNG(getURLContent(myurl))
+grid.raster(img)
+```
+
+
