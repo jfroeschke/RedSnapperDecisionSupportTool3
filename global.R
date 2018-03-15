@@ -129,17 +129,17 @@ for-hire component.
                  allocation of the recreational sector component ACLs that 
                  may be used for state management programs. <p><br>")
 
-Alt2Text <- HTML("<b>Alternative 2</b> provides four options to apportion the 
+Alt2Text <- HTML("<b>Alternative 2</b> provides eight options to apportion the 
                  recreational sector ACL based on the average proportion of 
                  historical landings for various time series that end in 2015.
                  The tables below provide the resulting percentages from 
-                 apportioning the private angling (57.7%) and for hire (42.3%) 
-                components of the ACL by state.  For the private angling sector, 
+                 apportioning the private angling (57.7%) and for-hire (42.3%) 
+                components of the ACL by state.  For the private angling component, 
                  the sum of the state private angling ACLs for each alternative
                  totals 100% of the private angling ACL.  The federal for-hire 
-                 component, with 42.3% of the recreational sector ACL, would 
-                 remain under federal management but the allocation percentages
-                are provided for reference.")
+                 component is assigned the remaining 42.3% of the recreational sector ACL.  
+Dependings on the alternative selected in the previous action, the federal for-hire component 
+may remain under federal management.  The allocation percentages would be applicable if the Council decides to include the for-hire component in state management.")
 
 Alt3Text <- HTML("<b>Alternative 3</b> provides four options to apportion the 
                  recreational sector ACL based on the average proportion of 

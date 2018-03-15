@@ -100,7 +100,7 @@ ui <- function(request){
                                        div(
                                        radioButtons(inputId = "Alt2SectorAllocation",
                                                     inline=TRUE,
-                                                     label = "Apply sector allocation to state percentages", 
+                                                     label = "Apply component allocation to state percentages", 
                                                     choices = c("No",
                                                                 "Yes")),align="center"),
                                        box(tableOutput("summaryTable"), width=6),
@@ -199,7 +199,7 @@ ui <- function(request){
                               
                               tabPanel("Alternative 5", p(Alt6Text),
                                        hr(),
-                                      div(HTML("<h4>Explore allocation scenarios using the options below.  Its as easy as 1, 2, 3.</h4>"), align="Center"),
+                                      div(HTML("<h4>Explore allocation scenarios using the options below.  It's as easy as 1, 2, 3.</h4>"), align="Center"),
                                        #bookmarkButton(label="Save settings"),
                                        fluidRow(
 column(6, radioGroupButtons(inputId = "Id073", 
@@ -215,7 +215,7 @@ column(6, pickerInput(inputId = "TimeSeriesSelect",
                                                         "50% of the average 1986-2009 and 50% of the average 2006-2009", 
                                                         "50% of the average 1986-2015 and 50% of the average 2006-2015" 
                                                                                                           )))),
-column(12, div(HTML("<h4 id='A6title' style='text-align:center;' ><b>**3a: Select a weighted value</b>"))
+column(12, div(HTML("<h4 id='A6title' style='text-align:center;' ><b>3a: Select a weighted value</b>"))
       )
   ),
 ##############Experimental with action buttons
@@ -241,7 +241,7 @@ fluidRow(
                                          bsTooltip("a1", "Data source: Mandy Karnauskas, John F. Walter III, Matthew D. Campbell, Adam G. Pollack, J. Marcus Drymon & Sean Powers. 2017. Red Snapper Distribution on Natural Habitats and Artificial Structures in the Northern Gulf of Mexico.Marine and Coastal Fisheries Vol. 9 , Iss. 1,2017",  
                                                    "right", options = list(container = "body")),
                                          column(2, inline_numericInput(numericInput("b1", label = "Trips", value = 25, min=0, max=100, step=1))),
-                                         column(2, inline_numericInput(numericInput("c1", label = "***Landings", value = 25, min=0, max=100, step=1))),
+                                         column(2, inline_numericInput(numericInput("c1", label = "**Landings", value = 25, min=0, max=100, step=1))),
                           
                                          column(2, 
                                                 inlineCSS("#check { border: 3px solid #00c0ef;;border-style: dashed;"),
@@ -261,7 +261,7 @@ fluidRow(
                                          bsTooltip("report", "Click this button to save the selection. You can save additional and compare using the tables on right. Once completed you can export a report of results using the save summary report button.",  
                                                    "right", options = list(container = "body")),
                                                 #bookmarkButton(label="Save settings")),
-                                         column(12, HTML("<br>*2010 data were excluded from all times series considered here.<br>**Options were modified by the Gulf Council at their January 2018 meeting.  <br> ***An option to consider landings as a weighting factor was added for covenience."))
+                                         column(12, HTML("<br>*2010 data were excluded from all times series considered here.<br><br>**An option to consider landings as a weighting factor was added for covenience."))
                                        
                                        )
                                         ),

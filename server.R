@@ -1900,7 +1900,7 @@ caption.width = getOption("xtable.caption.width", NULL))
          hc <- highchart() %>%
            hc_title(text= "Allocation based on selected options") %>%
            #hc_subtitle(text="put in selected option here") %>% 
-           hc_subtitle(text=HTML(paste("Recreational component: ", input$Id073, "<br>",
+           hc_subtitle(text=HTML(paste("Recreational sector: ", input$Id073, "<br>",
                                        "Selectetd years: ", input$TimeSeriesSelect, "<br>",
                                        "Weighting combination: Biomass = ", input$a1, 
                                        "Trips = ", input$c1, "Landings = ", input$b1, 
