@@ -5,8 +5,9 @@ account: gulfcouncilportal
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 296020
-bundleId: 1270633
+bundleId: 1392885
 url: https://gulfcouncilportal.shinyapps.io/RedSnapperDecisionSupportTool3/
-when: 1521139718.54695
+when: 1527252851.44941
 asMultiple: FALSE
 asStatic: FALSE
+ignoredFiles: ExampleReport.docx|Portal Example.docx|document/Recreational State Management for Red Snapper 2-12-2018.docx|prep/allocationbasecharts.R

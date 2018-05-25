@@ -14,6 +14,7 @@ library(ggthemes)
 library(RCurl)
 library(png)
 library(grid)
+library(rintrojs)
 # library(glue)
 # library(shinycssloaders)
 
@@ -152,7 +153,7 @@ Alt3Text <- HTML("<b>Alternative 3</b> provides four options to apportion the
 
 Alt4Text <- HTML("<b>Alternative 3</b> provides options for excluding particular years
                  from the historical landings averages:  
-2006 (<b>Option 4a</b>),  2014 (<b>Option 3b</b>), and 2015 (<b>Option 3c</b>).")
+2006 (<b>Option 3a</b>),  2014 (<b>Option 3b</b>), and 2015 (<b>Option 3c</b>).")
 
 Alt5Text <- HTML("
 <b>Alternative 4</b>:  Establish an allocation of the recreational sector ACL that may 
